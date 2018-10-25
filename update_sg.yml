@@ -1,0 +1,6 @@
+- name: provision infrastructure on Openstack 10
+  hosts: jumpbox
+  gather_facts: true
+
+  roles:
+  - sg_provsioning

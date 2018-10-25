@@ -1,0 +1,54 @@
+---
+# tasks file for network_provsioning
+- name: Create Public Network
+  os_network:
+    cloud: ospcloud
+    state: present
+    name: pub_net
+    external: true
+
+- name: Create Subnet for Public Network
+  os_subnet:
+    network_name: pub_net
+    name: pub_subnet
+    cidr: 10.10.10.0/24
+    dns_nameservers:
+       - 8.8.8.7
+       - 8.8.8.8
+    host_routes:
+       - destination: 0.0.0.0/0
+         nexthop: 10.10.10.0
+       - destination: 192.168.0.0/24
+         nexthop: 192.168.0.0
+
+- name: Create Private Network
+  os_network:
+    cloud: ospcloud
+    state: present
+    name: priv_net
+    external: false
+
+- name: Create Subnet for Private Network
+  os_subnet:
+    network_name: priv_net
+    name: priv_subnet
+    cidr: 20.20.20.0/24
+    dns_nameservers:
+       - 8.8.8.7
+       - 8.8.8.8
+    host_routes:
+       - destination: 0.0.0.0/0
+         nexthop: 20.20.20.0
+       - destination: 192.168.0.0/24
+         nexthop: 192.168.0.0
+
+- os_router:
+    cloud: ospcloud
+    state: present
+    name: router1
+    network: pub_net
+    external_fixed_ips:
+      - net: private-net
+        subnet: pub_subnet
+    interfaces:
+      - priv_subnet

@@ -1,0 +1,14 @@
+---
+vars: 
+  all_sg:
+   - sg_apps
+   - sg_fe
+   - sg_db
+
+- os_security_group_rule:
+    cloud: ospcloud
+    security_group: all_sg
+    protocol: icmp
+    port_range_min: -1
+    port_range_max: -1
+    remote_ip_prefix: 0.0.0.0/0

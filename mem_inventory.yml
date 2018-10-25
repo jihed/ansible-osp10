@@ -1,0 +1,39 @@
+---
+
+- name: create a memory inventory
+  hosts: jumpbox
+  become: true
+  gather_facts: true
+  vars:
+    myinstances:
+     - app1
+     - app2
+     - frontend
+     - db
+
+  
+  tasks: 
+  - name: fetch for openstack servers facts
+    os_server_facts:
+      cloud: ospcloud
+    register: rst
+
+  - name: Add host
+    add_host:
+      name: "{{ item.public_v4 }}"
+      group: "{{ item.metadata.group }}"
+    loop: "{{rst.ansible_facts.openstack_servers}}"
+  - name: Add host
+    add_host:
+       name: "{{ item.public_v4 }}"
+       group: "{{ item.metadata.deployment_name }}"
+    loop: "{{rst.ansible_facts.openstack_servers}}"
+
+#  - name: Generate lab static inventory file
+#    template:
+#      src: lab_inventory.j2
+#      dest: "my_inventory"
+#    delegate_to: localhost
+
+- name: Install the 3 tier apps
+  import_playbook: ../good-ansible/tier_app.yml

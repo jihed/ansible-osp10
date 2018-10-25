@@ -1,0 +1,6 @@
+---
+instance_name: app1
+sg: sg_apps
+group: apps
+deployment: QA
+

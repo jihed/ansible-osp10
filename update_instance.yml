@@ -1,0 +1,27 @@
+- name: provision infrastructure on Openstack 10
+  hosts: jumpbox
+  gather_facts: true
+  
+  roles:
+  
+  tasks:
+  ##Create Fronend Instance
+  - name: update frontend instance
+    include_role:
+       name: instance_update
+       vars_from: fe.yml
+  ###Create App1 server 
+  - name: update app1 instance
+    include_role:
+       name: instance_update
+       vars_from: app1.yml
+  ##Create App2 server
+  - name: update app2 instance
+    include_role:
+       name: instance_update
+       vars_from: app2.yml
+  ##Create DB server
+  - name: update db instance
+    include_role:
+       name: instance_update
+       vars_from: db.yml

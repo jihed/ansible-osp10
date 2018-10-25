@@ -1,0 +1,6 @@
+---
+instance_name: frontend
+sg: sg_fe
+group: frontends
+deployment: QA
+

@@ -1,0 +1,6 @@
+---
+instance_name: db
+sg: sg_db
+group: appsdb
+deployment: QA
+

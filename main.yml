@@ -1,0 +1,31 @@
+- name: provision infrastructure on Openstack 10
+  hosts: jumpbox
+  gather_facts: true
+  
+  roles:
+  - network_provsioning
+  - keypair_provsioning
+  - flavor_provsioning
+  - sg_provsioning
+  
+  tasks:
+  ##Create Fronend Instance
+  - name: Create frontend instance
+    include_role:
+       name: instance_provsioning
+       vars_from: fe.yml
+  ###Create App1 server 
+  - name: Create app1 instance
+    include_role:
+       name: instance_provsioning
+       vars_from: app1.yml
+  ##Create App2 server
+  - name: Create app2 instance
+    include_role:
+       name: instance_provsioning
+       vars_from: app2.yml
+  ##Create DB server
+  - name: Create db instance
+    include_role:
+       name: instance_provsioning
+       vars_from: db.yml
